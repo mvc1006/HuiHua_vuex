@@ -1,0 +1,170 @@
+.mtop15 {
+  margin-top: 15px;
+}
+.ptop20 {
+  padding-top: 20px;
+}
+.pbtom10 {
+  padding-bottom: 10px;
+}
+.pright40 {
+  padding-right: 40px;
+}
+.mright15 {
+  margin-right: 15px;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.tc {
+  text-align: center;
+}
+.td-index .ivu-table-cell {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.relative {
+  position: relative;
+}
+
+.switch-mark {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  top: 0;
+  left: 0;
+}
+
+.ivu-modal-confirm-head-icon {
+  display: none;
+}
+
+.form-box textarea {
+  resize: none
+}
+
+.page-box {
+  padding-top: 20px;
+}
+
+.page-box ul {
+  text-align: right;
+}
+
+.content-box {
+  background: #fff;
+  height: 100%;
+}
+
+.content-title {
+  border-bottom: 1px solid #e8eaec;
+  padding: 14px 16px;
+}
+
+.content-title h3 {
+  display: inline-block;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  font-size: 16px;
+  color: #17233d;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content-title p {
+  font-size: 12px;
+  line-height: 30px;
+  height: 30px;
+}
+
+.content-body {
+  padding: 16px;
+}
+
+.content-body-scroll {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.clearfix:after {
+  display: table;
+  clear: both;
+  content: ' ';
+}
+.search-label {
+  line-height: 32px;
+  height: 32px;
+  width: 150px;
+  text-align: center;
+  font-size: 14px;
+}
+.iu-tree1 .ivu-tree-title-selected, .iu-tree1 .ivu-tree-title-selected:hover{
+  font-weight:bold;
+  background-color: #fff;
+  font-size: 13px;
+}
+.iu-tree1 .ivu-tree-title, .iu-tree1 .ivu-tree-title:hover{
+  background-color: #fff;
+}
+.ivu-message {
+  z-index: 2002 !important;
+}
+.total-box {
+  border: 1px solid #e8eaec;
+  padding: 20px;
+  position: relative;
+  margin-top: 40px;
+}
+.total-title {
+  position: absolute;
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  color: #17233d;
+  line-height: 22px;
+  top: -11px;
+  left: 30px;
+}
+.total-info p {
+  font-size: 14px;
+  line-height: 30px;
+  height: 30px;
+}
+.total-info p span {
+  font-size: 16px;
+  color: #f00;
+  line-height: 30px;
+  height: 30px;
+  display: inline-block;
+}
+.modal-body-scroll .ivu-modal-body {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.span-required {
+  position: relative;
+}
+.span-required::before {
+  /* position: absolute; */
+  content: '*';
+  color: #f00;
+  display: inline-block;
+  line-height: 32px;
+  height: 32px;
+  padding-right: 8px;
+}
+.formTop .ivu-modal{
+  top:50px !important;
+}
+.ivu-tooltip-rel{
+  margin-left: -9px;
+}
