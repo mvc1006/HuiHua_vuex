@@ -63,7 +63,7 @@ export default [
           notCache: true,
           icon: 'md-home'
         },
-        component: () => import('@/view/single-page/home')
+        component: () => import('@/view/home/home')
       }
     ]
   },
@@ -153,7 +153,7 @@ export default [
           title: '错误收集',
           hideInMenu: true
         },
-        component: () => import('@/view/single-page/error-logger.vue')
+        component: () => import('@/view/home/error-logger.vue')
       }
     ]
   },

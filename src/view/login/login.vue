@@ -40,7 +40,7 @@ export default {
           if (code == 200) {
             // storage.getStorage('storeInfo');
             storage.setStorage("storeInfo", data);
-
+            storage.setStorage("token", data.token);
             this.getUserInfo(data).then(result => {
               if (result) {
                 // this.loginMenu(data.roleId);
@@ -64,8 +64,6 @@ export default {
       );
     },
     tohome() {
-      console.log("tohome", Date.now());
-      // this.Loading.close();
       this.$router.push({
         // path: '/' + this.$config.homeName
         name: this.$config.homeName

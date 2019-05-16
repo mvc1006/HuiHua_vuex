@@ -65,9 +65,9 @@ export default {
   data() {
     return {
       form: {
-        phone: "",
+        phone: "13581770393",
         userId: "40000003",
-        pwd: ""
+        pwd: "111111"
       },
       userIdList: [
         {
@@ -98,8 +98,8 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$emit("on-success-valid", {
-            mobile: this.form.phone,
-            pass: this.form.pwd,
+            mobile: "13581770393",
+            pass: "111111",
             companyNo: "40000003"
           });
         }

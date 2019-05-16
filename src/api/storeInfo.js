@@ -10,7 +10,7 @@ export const storeInfoLoginStore = params => {
   return axios.request({
     url: storeInfo.loginStore,
     method: 'post',
-    params: params
+    data: params
   });
 };
 
