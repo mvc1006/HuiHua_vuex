@@ -2,7 +2,7 @@
   <Form ref="loginForm" :model="form" :rules="rules" @keydown.enter.native="handleSubmit">
     <FormItem prop="phone">
       <!-- <Input type="text" v-model="value14" v-show="false"/>
-      <Input type="password" v-model="value14" v-show="false"/> -->
+      <Input type="password" v-model="value14" v-show="false"/>-->
       <Input v-model="form.phone" placeholder="请输入手机号" @on-blur="searchUserId">
         <span slot="prepend">
           <Icon :size="16" type="ios-phone-portrait"></Icon>
@@ -26,17 +26,10 @@
       </Select>
     </FormItem>
     <FormItem prop="pwd">
-      <Input
-        type="password"
-        v-model="form.pwd"
-        placeholder="请输入密码"
-      >
-      <span slot="prepend">
-        <Icon
-          :size="14"
-          type="md-lock"
-        ></Icon>
-      </span>
+      <Input type="password" v-model="form.pwd" placeholder="请输入密码">
+        <span slot="prepend">
+          <Icon :size="14" type="md-lock"></Icon>
+        </span>
       </Input>
     </FormItem>
     <!-- <FormItem prop="pwd">
@@ -45,14 +38,14 @@
           <Icon :size="14" type="md-lock"></Icon>
         </span>
       </Input>
-    </FormItem> -->
+    </FormItem>-->
     <FormItem>
       <Button @click="handleSubmit" type="primary" long>登录</Button>
     </FormItem>
   </Form>
 </template>
 <script>
-import { storeUserFindListByLinkMobile } from "@/api/storeUser";
+// import { storeUserFindListByLinkMobile } from "@/api/storeUser";
 export default {
   name: "LoginForm",
   props: {
@@ -73,11 +66,16 @@ export default {
     return {
       form: {
         phone: "",
-        userId: "",
+        userId: "40000003",
         pwd: ""
       },
-      userIdList: [],
-      disabledSelect: true,
+      userIdList: [
+        {
+          value: "40000003",
+          label: "40000003"
+        }
+      ],
+      disabledSelect: false,
       isShowSelect: false,
       inputType: "text",
       value14: ""
@@ -100,9 +98,9 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$emit("on-success-valid", {
-            phone: this.form.phone,
-            userId: this.form.userId,
-            pwd: this.form.pwd
+            mobile: this.form.phone,
+            pass: this.form.pwd,
+            companyNo: "40000003"
           });
         }
       });
@@ -129,7 +127,7 @@ export default {
       // }, 1000);
     },
     searchUserId() {
-      this.getUserIdList();
+      // this.getUserIdList();
     }
   },
   mounted() {}

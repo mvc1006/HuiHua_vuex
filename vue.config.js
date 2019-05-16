@@ -41,7 +41,7 @@ module.exports = {
     // port: '4003',
     proxy: {
       '/v1': {
-        target: 'http://test1.yunqixinxi.com:6050',
+        target: 'http://yuncantest1.yunqixinxi.com',
         changeOrigin: true,
         secure: false // 接受 运行在 https 上的服务
       }

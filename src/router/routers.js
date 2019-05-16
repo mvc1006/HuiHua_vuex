@@ -31,607 +31,129 @@ export default [
     name: 'register',
     meta: {
       title: 'register - 注册',
-      notCache: true,
       hideInMenu: true
     },
     component: () => import('@/view/register/register.vue')
   },
   {
+    path: '/forget-password',
+    name: 'forgetPassword',
+    meta: {
+      title: 'forgetPassword - 忘记密码',
+      hideInMenu: true
+    },
+    component: () => import('@/view/forget-password/forgetPassword.vue')
+  },
+  {
     path: '/',
-    name: '_singlepage',
+    name: '_home',
+    redirect: '/home',
     component: Main,
-    redirect: '/singlepage',
     meta: {
       hideInMenu: true,
       notCache: true
     },
-    children: [{
-      path: '/singlepage',
-      name: 'singlepage',
-      meta: {
-        hideInMenu: true,
-        title: '首页',
-        notCache: true,
-        icon: 'md-home'
-      },
-      component: () => import('@/view/singlepage/singlepage')
-    }]
-  },
-  {
-    path: '/home',
-    name: 'home',
-    icon: 'ios-home',
-    meta: {
-      icon: 'ios-home',
-      title: '门店管理'
-    },
-    component: Main,
     children: [
       {
-        path: 'storeList',
-        name: 'storeList',
-        icon: '',
+        path: '/home',
+        name: 'home',
         meta: {
-          icon: 'md-funnel',
+          hideInMenu: true,
+          title: '首页',
           notCache: true,
-          title: '门店信息'
+          icon: 'md-home'
         },
-        component: () => import('@/view/home/storeList.vue')
-      },
-      {
-        path: 'storeset',
-        name: 'storeset',
-        icon: '',
-        meta: {
-          icon: 'md-clipboard',
-          notCache: true,
-          title: '参数设置'
-        },
-        component: () => import('@/view/home/storeset.vue')
-      },
-      {
-        path: 'joinin',
-        name: 'joinin',
-        icon: '',
-        meta: {
-          icon: 'md-clipboard',
-          notCache: true,
-          title: '申请加盟'
-        },
-        component: () => import('@/view/home/joinin.vue')
+        component: () => import('@/view/single-page/home')
       }
     ]
   },
   {
-    path: '/goods',
-    name: 'goods',
-    icon: 'ios-pricetags',
+    path: '/basic-setting',
+    name: 'basicSetting',
     meta: {
-      icon: 'md-menu',
-      notCache: true,
-      title: '商品管理'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'barCode',
-        name: 'barCode',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '一品多码设置'
-        },
-        component: () => import('@/view/goods/barCode.vue')
-      },
-      {
-        path: 'packCode',
-        name: 'packCode',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '包装条码设置'
-        },
-        component: () => import('@/view/goods/packCode.vue')
-      },
-      {
-        path: 'goodsColor',
-        name: 'goodsColor',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '颜色设置'
-        },
-        component: () => import('@/view/goods/goodsColor.vue')
-      },
-      {
-        path: 'goodsSize',
-        name: 'goodsSize',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '尺码设置'
-        },
-        component: () => import('@/view/goods/goodsSize.vue')
-      },
-      {
-        path: 'classification',
-        name: 'classification',
-        icon: '',
-        meta: {
-          icon: 'md-clipboard',
-          notCache: true,
-          title: '商品分类'
-        },
-        component: () => import('@/view/goods/classification.vue')
-      },
-      {
-        path: 'goodsList',
-        name: 'goodsList',
-        icon: '',
-        meta: {
-          icon: 'md-clipboard',
-          notCache: true,
-          title: '商品列表'
-        },
-        component: () => import('@/view/goods/goodsList.vue')
-      }
-    ]
-  },
-  {
-    path: '/pay',
-    name: 'pay',
-    icon: 'ios-pricetags',
-    meta: {
-      icon: 'md-menu',
-      title: '收银管理',
-      notCache: true,
+      icon: 'logo-buffer',
+      title: '基础设置',
       showAlways: true
     },
     component: Main,
-    children: [{
-      path: 'paySet',
-      name: 'paySet',
-      icon: '',
-      meta: {
-        icon: 'md-funnel',
-        notCache: true,
-        title: '支付设置'
+    children: [
+      {
+        path: 'organize',
+        name: 'organize',
+        meta: {
+          icon: 'md-arrow-dropdown-circle',
+          title: '组织结构'
+        },
+        component: () => import('@/view/basic-setting/organize.vue')
       },
-      component: () => import('@/view/pay/paySet.vue')
-    }]
+      {
+        path: 'RankStructure',
+        name: 'RankStructure',
+        meta: {
+          icon: 'md-arrow-dropdown-circle',
+          title: '职级结构'
+        },
+        component: () => import('@/view/basic-setting/RankStructure.vue')
+      },
+      {
+        path: 'JobManagement',
+        name: 'JobManagement',
+        meta: {
+          icon: 'md-arrow-dropdown-circle',
+          title: '岗位管理'
+        },
+        component: () => import('@/view/basic-setting/JobManagement.vue')
+      },
+      {
+        path: 'PermissionSettings',
+        name: 'PermissionSettings',
+        meta: {
+          icon: 'md-arrow-dropdown-circle',
+          title: '权限设置'
+        },
+        component: () => import('@/view/basic-setting/PermissionSettings.vue')
+      }
+    ]
   },
   {
-    path: '/hardware',
-    name: 'hardware',
-    icon: 'ios-pricetags',
+    path: '/HR',
+    name: 'HR',
     meta: {
-      icon: 'md-menu',
-      title: '硬件设备设置',
-      notCache: true,
+      icon: 'logo-buffer',
+      title: '人事管理',
       showAlways: true
     },
     component: Main,
-    children: [{
-      path: 'workstation',
-      name: 'workstation',
-      icon: '',
-      meta: {
-        icon: 'md-funnel',
-        notCache: true,
-        title: '收银台设置'
-      },
-      component: () => import('@/view/hardware/workstation.vue')
-    },
-    {
-      path: 'balanceFlag',
-      name: 'balanceFlag',
-      icon: '',
-      meta: {
-        icon: 'md-funnel',
-        notCache: true,
-        title: '条码秤设置'
-      },
-      component: () => import('@/view/hardware/balanceFlag.vue')
-    }]
-  },
-  {
-    path: '/personnel',
-    name: 'personnel',
-    icon: 'ios-pricetags',
-    meta: {
-      icon: 'md-menu',
-      title: '人员设置',
-      notCache: true
-    },
-    component: Main,
-    children: [{
-      path: 'cashier',
-      name: 'cashier',
-      icon: '',
-      meta: {
-        icon: 'md-funnel',
-        notCache: true,
-        title: '收款员'
-      },
-      component: () => import('@/view/personnel/cashier.vue')
-    }]
-  },
-  {
-    path: '/jurisdiction',
-    name: 'jurisdiction',
-    icon: 'ios-pricetags',
-    meta: {
-      icon: 'md-menu',
-      notCache: true,
-      title: '权限设置'
-    },
-    component: Main,
     children: [
       {
-        path: 'user',
-        name: 'user',
-        icon: '',
+        path: 'PersonnelManagement',
+        name: 'PersonnelManagement',
         meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '用户设置'
+          icon: 'md-arrow-dropdown-circle',
+          title: '人员管理'
         },
-        component: () => import('@/view/jurisdiction/user.vue')
-      },
-      {
-        path: 'role',
-        name: 'role',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '角色设置'
-        },
-        component: () => import('@/view/jurisdiction/role.vue')
+        component: () => import('@/view/HR/PersonnelManagement.vue')
       }
     ]
   },
   {
-    path: '/order',
-    name: 'order',
-    icon: 'ios-pricetags',
+    path: '/error_logger',
+    name: 'error_logger',
     meta: {
-      icon: 'md-menu',
-      title: '数据报表中心'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'operateStatistics',
-        name: 'operateStatistics',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '营运统计表'
-        },
-        component: () => import('@/view/order/operateStatistics.vue')
-      },
-      {
-        path: 'payModeStatistics',
-        name: 'payModeStatistics',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '实收统计表'
-        },
-        component: () => import('@/view/order/payModeStatistics.vue')
-      },
-      {
-        path: 'orderTotal',
-        name: 'orderTotal',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '订单汇总表'
-        },
-        component: () => import('@/view/order/orderTotal.vue')
-      },
-      {
-        path: 'dishSale',
-        name: 'dishSale',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '商品销售排行'
-        },
-        component: () => import('@/view/order/dishSale.vue')
-      },
-      {
-        path: 'dishClassify',
-        name: 'dishClassify',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '商品分类排行'
-        },
-        component: () => import('@/view/order/dishClassify.vue')
-      },
-      {
-        path: 'orderFoodDetail',
-        name: 'orderFoodDetail',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '订单明细表'
-        },
-        component: () => import('@/view/order/orderFoodDetail.vue')
-      },
-      {
-        path: 'statement',
-        name: 'statement',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '利润报表'
-        },
-        component: () => import('@/view/order/statement.vue')
-      },
-      {
-        path: 'exceptionOrder',
-        name: 'exceptionOrder',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '异常订单统计表'
-        },
-        component: () => import('@/view/order/exceptionOrder.vue')
-      },
-      {
-        path: 'shift',
-        name: 'shift',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '交接班记录'
-        },
-        component: () => import('@/view/order/shift.vue')
-      }
-    ]
-  },
-  {
-    path: '/stock',
-    name: 'stock',
-    icon: 'ios-pricetags',
-    meta: {
-      icon: 'md-menu',
-      title: '库存管理'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'warehouse',
-        name: 'warehouse',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '库房管理'
-        },
-        component: () => import('@/view/stock/warehouse.vue')
-      },
-      {
-        path: 'check',
-        name: 'check',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '盘点管理'
-        },
-        component: () => import('@/view/stock/check.vue')
-      },
-      {
-        path: 'collar',
-        name: 'collar',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '领用管理'
-        },
-        component: () => import('@/view/stock/collar.vue')
-      },
-      {
-        path: 'loss',
-        name: 'loss',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '报损管理'
-        },
-        component: () => import('@/view/stock/loss.vue')
-      },
-      {
-        path: 'allocation',
-        name: 'allocation',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '调拨管理'
-        },
-        component: () => import('@/view/stock/allocation.vue')
-      },
-      {
-        path: 'supplier',
-        name: 'supplier',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '供应商管理'
-        },
-        component: () => import('@/view/stock/supplier.vue')
-      },
-      {
-        path: 'purchase',
-        name: 'purchase',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '采购入库'
-        },
-        component: () => import('@/view/stock/purchase.vue')
-      },
-      {
-        path: 'returnOut',
-        name: 'returnOut',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '退货出库'
-        },
-        component: () => import('@/view/stock/returnOut.vue')
-      }
-    ]
-  },
-  {
-    path: '/inventory',
-    name: 'inventory',
-    icon: 'ios-pricetags',
-    meta: {
-      icon: 'md-menu',
-      notCache: true,
-      title: '库存报表'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'tracking',
-        name: 'tracking',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '库存追踪'
-        },
-        component: () => import('@/view/inventory/tracking.vue')
-      },
-      {
-        path: 'statistics',
-        name: 'statistics',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '库存统计'
-        },
-        component: () => import('@/view/inventory/statistics.vue')
-      },
-      {
-        path: 'stockAlarm',
-        name: 'stockAlarm',
-        icon: '',
-        meta: {
-          icon: 'md-funnel',
-          notCache: true,
-          title: '库存预警'
-        },
-        component: () => import('@/view/inventory/stockAlarm.vue')
-      }
-    ]
-  },
-  {
-    path: '',
-    name: 'vip',
-    meta: {
-      title: '会员中心',
-      href: 'http://pos.yunqixinxi.com/crm',
-      icon: 'ios-pricetags'
-    }
-  },
-  // {
-  //   path: '/vip',
-  //   name: '_vip',
-  //   icon: 'ios-pricetags',
-  //   meta: {
-  //     icon: 'md-menu',
-  //     title: '会员中心',
-  //     // hideInMenu: true,
-  //     notCache: true
-  //     // showAlways: true
-  //   },
-  //   component: Main,
-  //   children: [
-  //     {
-  //       path: 'vip',
-  //       name: 'vip',
-  //       icon: '',
-  //       meta: {
-  //         icon: 'md-funnel',
-  //         notCache: true,
-  //         title: '会员中心'
-  //       },
-  //       component: () => import('')
-  //     }
-  //   ]
-  // },
-  {
-    path: '/i18n',
-    name: 'i18n',
-    meta: {
-      hideInBread: true
-    },
-    component: Main,
-    children: [{
-      path: 'i18n_page',
-      name: 'i18n_page',
-      meta: {
-        icon: 'md-planet',
-        title: 'i18n - {{ i18n_page }}'
-      },
-      component: () => import('@/view/i18n/i18n-page.vue')
-    }]
-  },
-  {
-    path: '/argu',
-    name: 'argu',
-    meta: {
+      hideInBread: true,
       hideInMenu: true
     },
     component: Main,
     children: [
       {
-        path: 'params/:id',
-        name: 'params',
+        path: 'error_logger_page',
+        name: 'error_logger_page',
         meta: {
-          icon: 'md-flower',
-          title: route => `{{ params }}-${route.params.id}`,
-          notCache: true,
-          beforeCloseName: 'before_close_normal'
+          icon: 'ios-bug',
+          title: '错误收集',
+          hideInMenu: true
         },
-        component: () => import('@/view/argu-page/params.vue')
-      },
-      {
-        path: 'query',
-        name: 'query',
-        meta: {
-          icon: 'md-flower',
-          title: route => `{{ query }}-${route.query.id}`,
-          notCache: true
-        },
-        component: () => import('@/view/argu-page/query.vue')
+        component: () => import('@/view/single-page/error-logger.vue')
       }
     ]
   },

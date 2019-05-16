@@ -19,7 +19,7 @@
 import LoginForm from "_c/login-form";
 import { mapActions } from "vuex";
 import { setMeunlistInLocalstorage } from "@/libs/util";
-import { loginMenu } from "@/api/loginMenu";
+// import { loginMenu } from "@/api/loginMenu";
 import storage from "@/libs/storage";
 export default {
   data() {
@@ -32,9 +32,9 @@ export default {
   },
   methods: {
     ...mapActions(["handleLogin", "getUserInfo", "getMenuList"]),
-    handleSubmit({ phone, pwd, userId }) {
+    handleSubmit({ mobile, pass, companyNo }) {
       window.Loading = this.$myLoading({ content: "正在登录…" });
-      this.handleLogin({ phone, pwd, userId }).then(
+      this.handleLogin({ mobile, pass, companyNo }).then(
         res => {
           const { code, data, message } = res;
           if (code == 200) {
@@ -43,7 +43,8 @@ export default {
 
             this.getUserInfo(data).then(result => {
               if (result) {
-                this.loginMenu(data.roleId);
+                // this.loginMenu(data.roleId);
+                this.tohome();
               }
             });
           } else {
@@ -79,7 +80,7 @@ export default {
     loginMenu(roleId) {
       loginMenu(roleId).then(res => {
         let navlist = res.data.data;
-        console.log(navlist,"icon")
+        console.log(navlist, "icon");
         for (let i = 0; i < navlist.length; i++) {
           let listName = navlist[i].name; // 获取name值
           let str = listName.replace("/", ""); // 替换
@@ -87,7 +88,7 @@ export default {
           // 获取图标
           let iconImg = navlist[i].icon;
           // 赋值空字符串
-          console.log(iconImg)
+          console.log(iconImg);
           if (iconImg == null) {
             navlist[i].icon = navlist[i].meta.icon;
           }
@@ -123,7 +124,7 @@ export default {
             navlist[i].name = "vip";
             // navlist[i].meta.showAlways = false;
             // navlist[i].meta.hideInMenu = true;
-            navlist[i].meta.href = 'http://pos.yunqixinxi.com/crm';
+            navlist[i].meta.href = "http://pos.yunqixinxi.com/crm";
             navlist[i].meta.notCache = true;
             navlist[i].hideInMenu = true;
           }
