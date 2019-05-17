@@ -15,6 +15,30 @@ export const storeInfoLoginStore = params => {
 };
 
 /**
+ * 导航菜单
+ * @param {*}
+ */
+export const loginMenu = params => {
+  return axios.request({
+    url: storeInfo.loginMenu,
+    method: 'post',
+    data: params
+  });
+};
+
+/**
+ * 树结构导航菜单
+ * @param {*}
+ */
+export const loginStoreMenu = params => {
+  return axios.request({
+    url: storeInfo.loginStoreMenu,
+    method: 'post',
+    data: params
+  });
+};
+
+/**
  * 退出登录
  * @param {*}
  */
