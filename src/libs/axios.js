@@ -53,7 +53,7 @@ class HttpRequest {
         // Spin.show() // 不建议开启，因为界面不友好
       }
       if (config.url.indexOf(storeInfo.loginStore) == -1) {
-        console.log("store",store)
+        // console.log("store",store)
         config.headers['authorization'] = store.state.user.token;
         config.headers['companyNo'] = store.state.user.companyNo;
       }

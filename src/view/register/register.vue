@@ -8,63 +8,71 @@
         <!-- 第一个表单 -->
         <Form
           :model="formItem"
+          ref="formItem"
           label-position="left"
           :label-width="100"
           :rules="ruleValidate"
           class="form_1"
           v-show="isshow_1"
         >
-          <FormItem label="手机号码" >
+          <FormItem label="手机号码" prop="linkMobile">
             <Input v-model="formItem.linkMobile" placeholder="请输入手机号码"></Input>
+          </FormItem>
+          <FormItem label="图形验证码" prop="codeImg" v-if="flag">
+            <Input v-model="formItem.codeImg" placeholder="请填写图形验证码" style="width:190px;"></Input>
+            <Button style="padding:0;height:32px;margin-left:30px;">
+              <img :src="formItem.imgSrc" class="codeImg" @click="getVodeImg">
+            </Button>
           </FormItem>
           <FormItem label="验证码" prop="code">
             <Input v-model="formItem.code" placeholder="请输入验证码" style="width:60%"></Input>
             <!-- <span class="gitInfo" :disabled="isShow_code" @click="codeClick()">获取验证码</span> -->
-            <Button class="gitInfo" :disabled="isShow_code" @click="codeClick()">获取验证码</Button>
+            <Button class="gitInfo" :disabled="isShow" @click="codeClick()">{{refreshTitle}}</Button>
           </FormItem>
-          <FormItem label="设置密码" prop="password">
-            <Input v-model="formItem.password" placeholder="请设置账号登陆密码"></Input>
+          <FormItem label="设置密码" prop="Password">
+            <Input v-model="formItem.Password" placeholder="请设置账号登陆密码"></Input>
             <p>为了密码安全，密码设置规则为：由大写字母、小写字母、数字组成~</p>
           </FormItem>
-          <FormItem label="密码确认" prop="confirmpassword">
-            <Input v-model="formItem.confirmpassword" placeholder="请再次输入账号登陆密码" ></Input>
+          <FormItem label="密码确认" prop="confirmPassword">
+            <Input v-model="formItem.confirmPassword" placeholder="请再次输入账号登陆密码"></Input>
           </FormItem>
-          <Button @click="go_1" class="btn1" size="large" :disabled="dis">继续</Button>
+          <Button class="btn1" size="large" @click="go_1">继续</Button>
         </Form>
         <!-- 第二个表单 -->
         <Form
-          :model="formData"
+          :model="formItem"
+          ref="formItem"
           label-position="left"
           :label-width="100"
           class="form_2"
-          :rules="ruleValidate1"
+          :rules="ruleValidate"
           v-show="isshow_2"
         >
           <h1>请完善企业信息</h1>
           <FormItem label="企业名称" style="margin-top:7%" prop="firmName">
-            <Input v-model="formData.firmName" placeholder="请输入企业名称"></Input>
+            <Input v-model="formItem.firmName" placeholder="请输入企业名称"></Input>
           </FormItem>
           <FormItem label="联系人" prop="linkman">
-            <Input v-model="formData.linkman" placeholder="请输入联系人" ></Input>
+            <Input v-model="formItem.linkman" placeholder="请输入联系人"></Input>
           </FormItem>
           <FormItem label="联系方式" prop="phone">
-            <Input v-model="formData.phone" placeholder="请输入联系方式" ></Input>
+            <Input v-model="formItem.phone" placeholder="请输入联系方式"></Input>
           </FormItem>
           <FormItem label="所在地" prop="storeAdd">
             <Cascader
               :render-format="format"
               :data="data2"
-              v-model="formData.storeAdd"
+              v-model="formItem.storeAdd"
               trigger="hover"
             ></Cascader>
           </FormItem>
           <FormItem label="营业执照" prop="businessLicense">
-            <Upload action="//jsonplaceholder.typicode.com/posts/">
+            <Upload action="//jsonplaceholder.typicode.com/posts/" :format="['jpg','jpeg','png']">
               <Button icon="ios-cloud-upload-outline">点击上传营业执照</Button>
             </Upload>
           </FormItem>
-          <Button type="primary" size="large" class="submitBut" @click="handleSubmit">完成</Button>
-          <Button size="large">取消</Button>
+          <Button type="primary" size="large" class="submitBut" @click="handleSubmit('formItem')">完成</Button>
+          <Button size="large" @click="cancel()">取消</Button>
         </Form>
         <!-- 点击完成之后显示的内容 -->
         <div v-show="isshow_3" class="isshow_3">
@@ -79,34 +87,59 @@
         <h2 style="color:#fff">我是占位符</h2>
       </Footer>-->
     </Layout>
+    <Modal v-model="cancel1" draggable scrollable title="取消确认">
+      <div>是否确认取消？确认取消后本次注册及填写信息将无效哦</div>
+    </Modal>
   </div>
 </template>
 
 <script>
 import { chinaCity, getChilds } from "@/assets/chinaCity";
+import {
+  storeInfoRegister,
+  verifyCode,
+  getVerifyCode
+} from "../../api/storeInfo.js";
 export default {
   data() {
     return {
+      cancel1: false,
       data2: chinaCity,
+      // 表单提交数据
       formItem: {
+        // 注册手机号
         linkMobile: "",
+        // 短信验证码
         code: "",
-        password: "",
-        passd: "",
-        confirmpassword: ""
-      },
-      formData: {
+        // 密码
+        Password: "",
+        // 密码验证
+        confirmPassword: "",
+        // 图片验证码
+        codeImg: "",
+        imgSrc: "",
+        // 企业名
         firmName: "",
+        // 联系人
         linkman: "",
+        // 联系方式
         phone: "",
+        // 省市区
         storeAdd: [],
+        // 营业执照
         businessLicense: ""
       },
+      // 表单验证
       ruleValidate: {
-        password: [
-          { required: true, message: "密码不能为空", trigger: "blur" }
+        Password: [
+          {
+            required: true,
+            // message: "密码不能为空",
+            trigger: "blur",
+            validator: this.validatelPassword
+          }
         ],
-        confirmpassword: [
+        confirmPassword: [
           {
             required: true,
             message: "密码不一致",
@@ -114,17 +147,17 @@ export default {
             validator: this.validatelLinkPassword
           }
         ],
+        codeImg: [
+          { required: true, message: "图形验证码不能为空", trigger: "blur" }
+        ],
         linkMobile: [
           {
             required: true,
             message: "手机号不能为空",
-            trigger: "blur",
-            validator: this.validatelLinkPhone
+            trigger: "blur"
           }
         ],
-        code: [{ required: true, message: "验证码不能为空", trigger: "blur" }]
-      },
-      ruleValidate1: {
+        code: [{ required: true, message: "验证码不能为空", trigger: "blur" }],
         firmName: [
           { required: true, message: "企业名称不能为空", trigger: "blur" }
         ],
@@ -135,38 +168,168 @@ export default {
           { required: true, message: "联系方式不能为空", trigger: "blur" }
         ],
         storeAdd: [
-          { required: true, message: "所在地不为空", trigger: "change", type: "array" }
+          {
+            required: true,
+            message: "所在地不为空",
+            trigger: "change",
+            type: "array"
+          }
         ],
         businessLicense: [
-          { required: true, message: "营业执照不能为空", trigger: "blur" }
+          {
+            required: true,
+            message: "营业执照不能为空",
+            trigger: "blur",
+            type: "images"
+          }
         ]
       },
+
       addressMap: [],
-      isShow_code: false,
+      imageId: "",
+      imgCode: "",
+      flag: false,
       isshow_1: true,
       isshow_2: false,
       isshow_3: false,
-      dis: false
+      // disabled: true,
+      countdown: 120, // 初始化默认倒计时
+      refreshTitle: "获取验证码", // 初始化默认展示文字
+      timer: null,
+      isShow: false
     };
   },
+
   methods: {
-    handleSubmit: function() {
-      this.isshow_2 = false;
-      this.isshow_3 = true;
-      setTimeout(() => {
-        this.$router.push("/login");
-      }, 3000);
+    cancel() {
+      this.cancel1 = true;
+    },
+    // 倒计时
+    settime() {
+      if (!this.timer) {
+        this.countdown = 120;
+        this.timer = setInterval(() => {
+          if (this.countdown > 0 && this.countdown <= 120) {
+            this.countdown--;
+            this.refreshTitle = "倒计时(" + this.countdown + "s)";
+            this.isShow = true;
+          } else {
+            clearInterval(this.timer);
+            this.timer = null;
+            this.isShow = false;
+            this.refreshTitle = "重新获取验证码";
+          }
+        }, 1000);
+      }
+    },
+    // 注册api
+    async register() {
+      let arryList = this.formItem;
+      const addList = arryList.storeAdd;
+      let add = [];
+      addList.forEach(item => {
+        add.push(this.getLabel(item));
+      });
+      const item = {
+        linkMobile: "arryList.linkMobile",
+        linkName: "arryList.linkman",
+        companyName: "arryList.firmName",
+        province: add[0],
+        city: add[1],
+        pass: "arryList.Passworde",
+        vercode: "arryList.code"
+        // linkMobile: "",
+        // code: "",
+        // Password: "",
+        // confirmPassword: "",
+        // codeImg: "",
+        // imgSrc: "",
+        // firmName: "",
+        // linkman: "",
+        // phone: "",
+        // storeAdd: [],
+        // businessLicense: ""
+      };
+      this.registerLoading = this.$myLoading({ content: "正在保存,请稍等..." });
+      const { data, status } = await storeInfoRegister(item);
+      console.log(data);
+      if (data.code == 200 && status == 200) {
+        this.$Message.success("注册成功!");
+        setTimeout(() => {
+          this.registerLoading.close();
+          this.GoLogin();
+        }, 1000);
+      } else {
+        this.$Message.error(data.message);
+        this.registerLoading.close();
+      }
+    },
+    // 手机验证码api
+    async verifyCode() {
+      const item = {
+        phone: this.formItem.linkMobile,
+        imgId: this.imageId,
+        imgCode: this.formItem.codeImg
+      };
+      const { data, status } = await verifyCode(item);
+      if (data.code == 200 && status == 200) {
+        this.settime();
+      } else {
+        console.log(data);
+        this.$Message.error(data.message);
+      }
+    },
+    // 图形验证码api
+    async getVerifyCode() {
+      const { data, status } = await getVerifyCode();
+      if (data.code == 200 && status == 200) {
+        console.log(data);
+        this.formItem.imgSrc = "data:imageId/png;base64," + data.data.content;
+        this.imageId = data.data.imageId;
+        this.imgCode = "";
+      }
+    },
+    GoLogin() {
+      this.$router.push({
+        name: "login"
+      });
+    },
+    // 操作提交
+    handleSubmit(name) {
+      this.$refs[name].validate(valid => {
+        if (valid) {
+          this.register();
+          this.isshow_2 = false;
+          this.isshow_3 = true;
+        } else {
+          this.$Message.error("必填项未填写");
+        }
+      });
+      console.log(register());
     },
     // 卡片的显示
     go_1: function() {
-      this.isshow_1 = false;
-      this.isshow_2 = true;
+      let item = this.formItem;
+      if (this.formItem.linkMobile == "") {
+        this.$Message.error("请填写必填项");
+      } else if (item.code == "") {
+        this.$Message.error("请填写必填项");
+      } else if (item.Password == "") {
+        this.$Message.error("请填写必填项");
+      } else if (item.confirmPassword == "") {
+        this.$Message.error("请填写必填项");
+      } else if (item.codeImg == "") {
+        this.$Message.error("请填写必填项");
+      } else if (item.imgSrc == "") {
+        this.$Message.error("请填写必填项");
+      } else {
+        this.isshow_1 = false;
+        this.isshow_2 = true;
+      }
     },
+    // 省市区选择
     format(labels, selectedData) {
-      labels.join("-");
-    },
-    codeClick() {
-      alert("我是验证码");
+      return labels.join("-");
     },
     getLabel(value) {
       for (let i = 0; i < this.addressMap.length; i++) {
@@ -175,30 +338,51 @@ export default {
           return item.label;
         }
       }
+    },
+    // 按钮验证码
+    codeClick() {
+      let myreg = /^1\d{10}$/;
+      let linkMobile = this.formItem.linkMobile;
+      if (myreg.test(linkMobile)) {
+        if (!this.flag) {
+          this.flag = true;
+          this.getVerifyCode();
+        }
+      } else {
+        this.$Message.error("请输入正确的手机号");
+      }
+      if (this.flag == true) {
+        if (this.formItem.codeImg != undefined) {
+          this.verifyCode();
+        }
+      }
+    },
+    // 验证密码强度
+    validatelPassword(rule, value, callback) {
+      let myreg = /^\d{6,12}$/;
+      let Password = this.formItem.Password;
+      if (!myreg.test(Password)) {
+        callback(new Error("请输入6-12位的数字"));
+      } else {
+        callback();
+      }
+    },
+    // 单独验证密码是否一致
+    validatelLinkPassword(rule, value, callback) {
+      let linkPassword = this.formItem.Password;
+      console.log(value, linkPassword);
+      if (value !== linkPassword) {
+        callback(new Error("密码不一致"));
+      } else {
+        callback();
+      }
+    },
+    getVodeImg() {
+      this.getVerifyCode();
     }
   },
   mounted() {
     this.addressMap = getChilds();
-  },
-  // 验证手机号
-  validatelLinkPhone(rule, value, callback) {
-    let myreg = /^1\d{10}$/;
-    let linkMobile = this.formItem.linkMobile;
-    if (!myreg.test(linkMobile)) {
-      callback(new Error("请输入正确手机号"));
-    } else {
-      callback();
-    }
-  },
-  // 单独验证密码是否一致
-  validatelLinkPassword(rule, value, callback) {
-    let linkPassword = this.formItem.Password;
-    console.log(value, linkPassword);
-    if (value !== linkPassword) {
-      callback(new Error("密码不一致"));
-    } else {
-      callback();
-    }
   }
 };
 </script>
@@ -280,5 +464,9 @@ i {
 }
 .fontSize {
   font-size: 16px;
+}
+.codeImg {
+  border: 1px solid #ffffff;
+  cursor: pointer;
 }
 </style>

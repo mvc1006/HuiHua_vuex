@@ -260,7 +260,8 @@ export default {
     handleReset() {
       this.showAdd = false;
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 
