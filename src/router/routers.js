@@ -68,7 +68,7 @@ export default [
     ]
   },
   {
-    path: '/basic-setting',
+    path: '/basicSetting',
     name: 'basicSetting',
     meta: {
       icon: 'logo-buffer',
@@ -84,7 +84,7 @@ export default [
           icon: 'md-arrow-dropdown-circle',
           title: '组织结构'
         },
-        component: () => import('@/view/basic-setting/organize.vue')
+        component: () => import('@/view/basicSetting/organize.vue')
       },
       {
         path: 'RankStructure',
@@ -93,7 +93,7 @@ export default [
           icon: 'md-arrow-dropdown-circle',
           title: '职级结构'
         },
-        component: () => import('@/view/basic-setting/RankStructure.vue')
+        component: () => import('@/view/basicSetting/RankStructure.vue')
       },
       {
         path: 'JobManagement',
@@ -102,7 +102,7 @@ export default [
           icon: 'md-arrow-dropdown-circle',
           title: '岗位管理'
         },
-        component: () => import('@/view/basic-setting/JobManagement.vue')
+        component: () => import('@/view/basicSetting/JobManagement.vue')
       },
       {
         path: 'PermissionSettings',
@@ -111,7 +111,7 @@ export default [
           icon: 'md-arrow-dropdown-circle',
           title: '权限设置'
         },
-        component: () => import('@/view/basic-setting/PermissionSettings.vue')
+        component: () => import('@/view/basicSetting/PermissionSettings.vue')
       }
     ]
   },

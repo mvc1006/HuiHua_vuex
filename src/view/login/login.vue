@@ -19,7 +19,7 @@
 import LoginForm from "_c/login-form";
 import { mapActions } from "vuex";
 import { setMeunlistInLocalstorage } from "@/libs/util";
-// import { loginMenu } from "@/api/loginMenu";
+import { loginStoreMenu } from "@/api/storeInfo";
 import storage from "@/libs/storage";
 export default {
   data() {
@@ -43,8 +43,12 @@ export default {
             storage.setStorage("token", data.token);
             this.getUserInfo(data).then(result => {
               if (result) {
-                // this.loginMenu(data.roleId);
-                this.tohome();
+                let adminFlag = 1;
+                let menuFlag = 1;
+                this.loginStoreMenu({
+                  adminFlag: adminFlag,
+                  menuFlag: menuFlag
+                });
               }
             });
           } else {
@@ -75,14 +79,16 @@ export default {
         name: "register"
       });
     },
-    loginMenu(roleId) {
-      loginMenu(roleId).then(res => {
+    loginStoreMenu({ adminFlag, menuFlag }) {
+      loginStoreMenu({ adminFlag: adminFlag, menuFlag: menuFlag }).then(res => {
         let navlist = res.data.data;
-        console.log(navlist, "icon");
+        console.log(navlist, "navlist");
         for (let i = 0; i < navlist.length; i++) {
           let listName = navlist[i].name; // 获取name值
+          console.log(listName, "nnnn");
           let str = listName.replace("/", ""); // 替换
           navlist[i].name = str; // 重新赋值
+
           // 获取图标
           let iconImg = navlist[i].icon;
           // 赋值空字符串
@@ -90,6 +96,7 @@ export default {
           if (iconImg == null) {
             navlist[i].icon = navlist[i].meta.icon;
           }
+
           // 获取父级下面的子级数量以及图标
           let numBer = 0;
           if (
@@ -100,7 +107,8 @@ export default {
             numBer = navlist[i].children.length;
           }
           for (let j = 0; j < numBer; j++) {
-            let numBerIcon = navlist[i].children[j].icon;
+            let numBerIcon = navlist[i].children[j].menuIco;
+
             // 子图图标
             if (numBerIcon == null) {
               navlist[i].children[j].icon = "ios-disc";
@@ -110,19 +118,11 @@ export default {
           if (numBer == 1) {
             navlist[i].meta.showAlways = true;
           }
-          if (navlist[i].path == "/singlePage") {
+          if (navlist[i].path == "/home") {
             navlist[i].path = "/";
-            navlist[i].name = "_singlePage";
+            navlist[i].name = "_home";
             navlist[i].meta.showAlways = false;
             navlist[i].meta.hideInMenu = true;
-            navlist[i].meta.notCache = true;
-            navlist[i].hideInMenu = true;
-          } else if (navlist[i].path == "/vip") {
-            navlist[i].path = "/";
-            navlist[i].name = "vip";
-            // navlist[i].meta.showAlways = false;
-            // navlist[i].meta.hideInMenu = true;
-            navlist[i].meta.href = "http://pos.yunqixinxi.com/crm";
             navlist[i].meta.notCache = true;
             navlist[i].hideInMenu = true;
           }
